@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "./services/api";
+import RemitoForm from "./components/RemitoForm";
+import RemitoTable from "./components/RemitoTable";
 
 function App() {
   const [remitos, setRemitos] = useState([]);
@@ -9,9 +11,16 @@ function App() {
   const [fecha, setFecha] = useState("");
   const [observaciones, setObservaciones] = useState("");
 
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(true);
   const cargarRemitos = async () => {
+
+    setLoading(true);
+
     const response = await api.get("/remitos");
     setRemitos(response.data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -21,88 +30,75 @@ function App() {
   const guardarRemito = async (e) => {
     e.preventDefault();
 
-    await api.post("/remitos", {
-      numeroRemito,
-      cliente,
-      fecha,
-      observaciones,
-    });
+    setError("");
+    setSuccess("");
 
-    setNumeroRemito("");
-    setCliente("");
-    setFecha("");
-    setObservaciones("");
+    if (!numeroRemito.trim()) {
+      setError("Debe ingresar un número de remito");
+      return;
+    }
 
-    cargarRemitos();
+    if (!cliente.trim()) {
+      setError("Debe ingresar un cliente");
+      return;
+    }
+
+    if (!fecha) {
+      setError("Debe ingresar una fecha");
+      return;
+    }
+
+    try {
+      await api.post("/remitos", {
+        numeroRemito,
+        cliente,
+        fecha,
+        observaciones,
+      });
+
+      setSuccess("Remito guardado correctamente");
+
+      setNumeroRemito("");
+      setCliente("");
+      setFecha("");
+      setObservaciones("");
+
+      cargarRemitos();
+    } catch {
+      setError("Ocurrió un error al guardar el remito");
+    }
   };
-
+  if (loading) {
+    return <p>Cargando remitos...</p>;
+  }
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Remitera</h1>
-
-      <form onSubmit={guardarRemito}>
-        <div>
-          <input
-            placeholder="Número de remito"
-            value={numeroRemito}
-            onChange={(e) => setNumeroRemito(e.target.value)}
-          />
+    <div className="container mt-4">
+      <h1 className="mb-4">Remitera Challenge</h1>
+      {error && (
+        <div className="alert alert-danger">
+          {error}
         </div>
+      )}
 
-        <div>
-          <input
-            placeholder="Cliente"
-            value={cliente}
-            onChange={(e) => setCliente(e.target.value)}
-          />
+      {success && (
+        <div className="alert alert-success">
+          {success}
         </div>
+      )}
 
-        <div>
-          <input
-            type="date"
-            value={fecha}
-            onChange={(e) => setFecha(e.target.value)}
-          />
-        </div>
+      <RemitoForm
+        numeroRemito={numeroRemito}
+        setNumeroRemito={setNumeroRemito}
+        cliente={cliente}
+        setCliente={setCliente}
+        fecha={fecha}
+        setFecha={setFecha}
+        observaciones={observaciones}
+        setObservaciones={setObservaciones}
+        onSubmit={guardarRemito}
+      />
 
-        <div>
-          <textarea
-            placeholder="Observaciones"
-            value={observaciones}
-            onChange={(e) => setObservaciones(e.target.value)}
-          />
-        </div>
-
-        <button type="submit">
-          Guardar
-        </button>
-      </form>
-
-      <hr />
-
-      <h2>Listado de Remitos</h2>
-
-      <table border="1">
-        <thead>
-          <tr>
-            <th>Número</th>
-            <th>Cliente</th>
-            <th>Fecha</th>
-            <th>Observaciones</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {remitos.map((r) => (
-            <tr key={r.id}>
-              <td>{r.numeroRemito}</td>
-              <td>{r.cliente}</td>
-              <td>{r.fecha}</td>
-              <td>{r.observaciones}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <RemitoTable remitos={remitos} />
     </div>
   );
 }

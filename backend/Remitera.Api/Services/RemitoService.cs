@@ -25,6 +25,7 @@ public class RemitoService : IRemitoService
                 Fecha = r.Fecha,
                 Observaciones = r.Observaciones
             })
+           .OrderByDescending(r => r.Fecha)
             .ToListAsync();
     }
 
