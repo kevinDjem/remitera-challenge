@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Remitera.Api.Data;
-using Remitera.Api.Models;
+using Remitera.Api.Dtos;
+using Remitera.Api.Services;
 
 namespace Remitera.Api.Controllers;
 
@@ -9,26 +8,22 @@ namespace Remitera.Api.Controllers;
 [Route("api/[controller]")]
 public class RemitosController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly IRemitoService _service;
 
-    public RemitosController(AppDbContext context)
+    public RemitosController(IRemitoService service)
     {
-        _context = context;
+        _service = service;
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<Remito>>> Get()
+    public async Task<IActionResult> Get()
     {
-        return await _context.Remitos.ToListAsync();
+        return Ok(await _service.GetAllAsync());
     }
 
     [HttpPost]
-    public async Task<ActionResult<Remito>> Post(Remito remito)
+    public async Task<IActionResult> Create(CreateRemitoRequest request)
     {
-        _context.Remitos.Add(remito);
-
-        await _context.SaveChangesAsync();
-
-        return Ok(remito);
+        return Ok(await _service.CreateAsync(request));
     }
 }
