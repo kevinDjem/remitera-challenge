@@ -169,3 +169,5 @@ C:\Github\remitera-challenge\backend\Remitera.Api\bin\Debug\net8.0\Swashbuckle.A
 C:\Github\remitera-challenge\backend\Remitera.Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Github\remitera-challenge\backend\Remitera.Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Github\remitera-challenge\backend\Remitera.Api\obj\Debug\net8.0\Remitera.Api.MvcApplicationPartsAssemblyInfo.cs
+C:\Github\remitera-challenge\backend\Remitera.Api\bin\Debug\net8.0\Npgsql.dll
+C:\Github\remitera-challenge\backend\Remitera.Api\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll

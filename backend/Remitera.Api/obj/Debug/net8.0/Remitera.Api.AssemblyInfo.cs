@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Remitera.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e2ef79f18ff1c08f8a537d685c79cd3d93dee59a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+90e71e93b063af8d73f46897ecbe24c51981f4c6")]
 [assembly: System.Reflection.AssemblyProductAttribute("Remitera.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Remitera.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
