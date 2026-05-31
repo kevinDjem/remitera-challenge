@@ -15,12 +15,12 @@ namespace Remitera.Api.Migrations
                 name: "Remitos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NumeroRemito = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Cliente = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Observaciones = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    NumeroRemito = table.Column<string>(type: "TEXT", nullable: false),
+                    Cliente = table.Column<string>(type: "TEXT", nullable: false),
+                    Fecha = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Observaciones = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
