@@ -14,13 +14,19 @@ function App() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(true);
+
   const cargarRemitos = async () => {
+    try {
+      setLoading(true);
 
-    setLoading(true);
+      const response = await api.get("/api/remitos");
+      setRemitos(response.data);
 
-    const response = await api.get("/remitos");
-    setRemitos(response.data);
-    setLoading(false);
+    } catch (err) {
+      setError("Error al cargar remitos");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -33,23 +39,12 @@ function App() {
     setError("");
     setSuccess("");
 
-    if (!numeroRemito.trim()) {
-      setError("Debe ingresar un número de remito");
-      return;
-    }
-
-    if (!cliente.trim()) {
-      setError("Debe ingresar un cliente");
-      return;
-    }
-
-    if (!fecha) {
-      setError("Debe ingresar una fecha");
-      return;
-    }
+    if (!numeroRemito.trim()) return setError("Debe ingresar un número de remito");
+    if (!cliente.trim()) return setError("Debe ingresar un cliente");
+    if (!fecha) return setError("Debe ingresar una fecha");
 
     try {
-      await api.post("/remitos", {
+      await api.post("/api/remitos", {
         numeroRemito,
         cliente,
         fecha,
@@ -64,27 +59,22 @@ function App() {
       setObservaciones("");
 
       cargarRemitos();
-    } catch {
+
+    } catch (err) {
       setError("Ocurrió un error al guardar el remito");
     }
   };
+
   if (loading) {
     return <p>Cargando remitos...</p>;
   }
+
   return (
     <div className="container mt-4">
       <h1 className="mb-4">Remitera Challenge</h1>
-      {error && (
-        <div className="alert alert-danger">
-          {error}
-        </div>
-      )}
 
-      {success && (
-        <div className="alert alert-success">
-          {success}
-        </div>
-      )}
+      {error && <div className="alert alert-danger">{error}</div>}
+      {success && <div className="alert alert-success">{success}</div>}
 
       <RemitoForm
         numeroRemito={numeroRemito}
