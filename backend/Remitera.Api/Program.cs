@@ -4,36 +4,30 @@ using Remitera.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Render port
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IRemitoService, RemitoService>();
+
+// PORT (Render)
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
-builder.Services.AddControllers();
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddScoped<IRemitoService, RemitoService>();
-
-// DB connection (Render compatible)
+// DATABASE
 var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
 string connectionString;
 
-var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-
 if (!string.IsNullOrEmpty(databaseUrl))
 {
     var uri = new Uri(databaseUrl.Replace("postgres://", "http://"));
-
     var userInfo = uri.UserInfo.Split(':');
 
-    var host = uri.Host;
-    var port = uri.Port > 0 ? uri.Port : 5432;
+    var portDb = uri.Port > 0 ? uri.Port : 5432;
 
     connectionString =
-        $"Host={host};" +
-        $"Port={port};" +
+        $"Host={uri.Host};" +
+        $"Port={portDb};" +
         $"Database={uri.AbsolutePath.TrimStart('/')};" +
         $"Username={userInfo[0]};" +
         $"Password={userInfo[1]};" +
@@ -61,7 +55,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Swagger solo en dev (opcional)
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
