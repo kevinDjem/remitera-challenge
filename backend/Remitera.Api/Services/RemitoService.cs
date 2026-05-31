@@ -35,7 +35,9 @@ public class RemitoService : IRemitoService
         {
             NumeroRemito = request.NumeroRemito,
             Cliente = request.Cliente,
-            Fecha = request.Fecha,
+            Fecha = DateTime.SpecifyKind(
+            request.Fecha,
+            DateTimeKind.Utc),
             Observaciones = request.Observaciones
         };
 
@@ -48,7 +50,9 @@ public class RemitoService : IRemitoService
             Id = remito.Id,
             NumeroRemito = remito.NumeroRemito,
             Cliente = remito.Cliente,
-            Fecha = remito.Fecha,
+            Fecha = DateTime.SpecifyKind(
+            request.Fecha,
+            DateTimeKind.Utc),
             Observaciones = remito.Observaciones
         };
     }
