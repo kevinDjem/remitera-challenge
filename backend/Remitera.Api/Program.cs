@@ -20,13 +20,20 @@ var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
 string connectionString;
 
-if (Uri.TryCreate(databaseUrl, UriKind.Absolute, out var uri))
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+if (!string.IsNullOrEmpty(databaseUrl))
 {
+    var uri = new Uri(databaseUrl.Replace("postgres://", "http://"));
+
     var userInfo = uri.UserInfo.Split(':');
 
+    var host = uri.Host;
+    var port = uri.Port > 0 ? uri.Port : 5432;
+
     connectionString =
-        $"Host={uri.Host};" +
-        $"Port={uri.Port};" +
+        $"Host={host};" +
+        $"Port={port};" +
         $"Database={uri.AbsolutePath.TrimStart('/')};" +
         $"Username={userInfo[0]};" +
         $"Password={userInfo[1]};" +
@@ -34,8 +41,8 @@ if (Uri.TryCreate(databaseUrl, UriKind.Absolute, out var uri))
 }
 else
 {
-    connectionString = databaseUrl
-        ?? builder.Configuration.GetConnectionString("DefaultConnection");
+    connectionString =
+        builder.Configuration.GetConnectionString("DefaultConnection");
 }
 
 builder.Services.AddDbContext<AppDbContext>(options =>
