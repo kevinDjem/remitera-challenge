@@ -4,6 +4,10 @@ using Remitera.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -29,6 +33,7 @@ builder.Services.AddCors(options =>
     });
 });
 
+    
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -40,12 +45,5 @@ if (app.Environment.IsDevelopment())
 app.UseCors("ReactPolicy");
 
 app.MapControllers();
-
-var port = Environment.GetEnvironmentVariable("PORT");
-
-if (!string.IsNullOrEmpty(port))
-{
-    app.Urls.Add($"http://*:{port}");
-}
 
 app.Run();
