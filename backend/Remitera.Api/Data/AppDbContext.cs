@@ -11,4 +11,13 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<Remito> Remitos => Set<Remito>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Remito>()
+            .HasIndex(r => r.NumeroRemito)
+            .IsUnique();
+
+        base.OnModelCreating(modelBuilder);
+    }
 }

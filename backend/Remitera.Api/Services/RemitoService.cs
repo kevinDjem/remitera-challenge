@@ -41,6 +41,14 @@ public class RemitoService : IRemitoService
             Observaciones = request.Observaciones
         };
 
+        var existe = await _context.Remitos
+            .AnyAsync(x => x.NumeroRemito == request.NumeroRemito);
+
+        if (existe)
+        {
+            throw new Exception("Ya existe un remito con ese número.");
+        }
+        
         _context.Remitos.Add(remito);
 
         await _context.SaveChangesAsync();
