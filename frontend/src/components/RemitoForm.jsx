@@ -7,6 +7,7 @@ export default function RemitoForm({
   setFecha,
   observaciones,
   setObservaciones,
+  loading,
   onSubmit
 }) {
   return (
@@ -52,8 +53,8 @@ export default function RemitoForm({
             />
           </div>
 
-          <button className="btn btn-primary">
-            Guardar
+          <button disabled={loading} className="btn btn-primary">
+            {loading ? "Guardando..." : "Guardar"}
           </button>
         </form>
       </div>
