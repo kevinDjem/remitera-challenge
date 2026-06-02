@@ -66,7 +66,10 @@ function App() {
 
       await cargarRemitos();
     } catch (err) {
-      setError("Ocurrió un error al guardar el remito");
+      setError(
+        err.response?.data?.message ||
+        "Ocurrió un error al guardar el remito"
+      );
     } finally {
       setLoading(false);
     }

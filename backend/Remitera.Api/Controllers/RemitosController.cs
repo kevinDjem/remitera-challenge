@@ -24,6 +24,17 @@ public class RemitosController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateRemitoRequest request)
     {
-        return Ok(await _service.CreateAsync(request));
+        try
+        {
+            var remito = await _service.CreateAsync(request);
+            return Ok(remito);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new
+            {
+                message = ex.Message
+            });
+        }
     }
 }
