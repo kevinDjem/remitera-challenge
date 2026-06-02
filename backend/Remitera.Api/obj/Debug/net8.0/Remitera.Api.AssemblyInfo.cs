@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("2e1bfd2f-c658-4eea-923e-e88dfe2a663e")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("Remitera.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+91c5cbea9a95ac34ddf97096c1b45d081afd5761")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8d89e953f256bdc6c50dcd6b385c7e866b20b6ef")]
 [assembly: System.Reflection.AssemblyProductAttribute("Remitera.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Remitera.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

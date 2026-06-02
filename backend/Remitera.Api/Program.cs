@@ -36,7 +36,9 @@ if (!string.IsNullOrEmpty(databaseUrl))
 else
 {
     connectionString =
-        builder.Configuration.GetConnectionString("DefaultConnection");
+        builder.Configuration.GetConnectionString("DefaultConnection")
+        ?? throw new InvalidOperationException(
+            "No se encontró la cadena de conexión.");
 }
 
 builder.Services.AddDbContext<AppDbContext>(options =>
